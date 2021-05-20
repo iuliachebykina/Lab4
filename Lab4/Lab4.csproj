@@ -43,6 +43,8 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="InversionMethod.cs" />
+        <Compile Include="InversionMethodTests.cs" />
         <Compile Include="Matrix.cs" />
         <Compile Include="MatrixTest.cs" />
         <Compile Include="Program.cs" />

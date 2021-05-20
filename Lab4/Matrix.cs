@@ -11,7 +11,7 @@ namespace Lab4
 
         public int N { get; }
 
-        public static double Count { get; private set; }
+        public static double Count { get; set; }
 
         public Matrix(int m, int n)
         {
@@ -190,22 +190,29 @@ namespace Lab4
 
             return result;
         }
-        
+
         public Matrix GetInvertibleMatrix()
         {
             if (M != N)
                 throw new ArgumentException("Matrix must be square");
-            var determinant = GetDeterminant();
+            return GetInvMatrix(this);
+        }
+
+        private static Matrix GetInvMatrix(Matrix matrix)
+        {
+            
+            var determinant = matrix.GetDeterminant();
             if (determinant == 0.0)
             {
                 throw new ArgumentException("The determinant is zero. Cannot find inverse matrix");
 
             }
-            var result = new Matrix(M, M);
-            result.ProcessFunctionOverData((i, j) => 
+            var result = new Matrix(matrix.M);
+            result.ProcessFunctionOverData((i, j) =>
             {
+                Count += 2;
                 result[i, j] = ((i + j) % 2 == 1 ? -1 : 1) * 
-                    CreateMatrixWithoutColumnAndRow(this, i, j).GetDeterminant()/ determinant;
+                    CreateMatrixWithoutColumnAndRow(matrix, i, j).GetDeterminant()/ determinant;
             });
             result = result.CreateTransposeMatrix();
             return result;
@@ -234,16 +241,6 @@ namespace Lab4
             });
             return result;
         }
-
-        public static double[] MethodOfMatrixInversion(Matrix a, double[] b)
-        {
-            var determinant = a.GetDeterminant();
-            if (determinant == 0.0)
-            {
-                return null;
-            }
-            var inverse = a.GetInvertibleMatrix();
-            return inverse.MultOnVector(b);
-        }
+        
     }
 }
