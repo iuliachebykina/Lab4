@@ -98,6 +98,7 @@ namespace Lab4
             inversionMethod.MethodOfMatrixInversion(m, b);
             if (inversionMethod.IsSolution)
             {
+                Console.WriteLine("Решение СЛУ:");
                 var result = inversionMethod.Solution;
                 Console.Write("X = ");
                 Console.Write("(");
