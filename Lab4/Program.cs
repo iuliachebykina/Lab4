@@ -17,7 +17,7 @@ namespace Lab4
             var streamWriter = new StreamWriter("res.txt");
             for (var i = 1; i <= 10; i++)
             {
-                var m = Matrix.RedhefferMatrix(i);
+                var m = new Matrix(i);
                 Matrix.Count = 0;
                 var random = new Random();
                 var flag = true;
@@ -116,6 +116,8 @@ namespace Lab4
             {
                 Console.WriteLine("СЛУ не имеет решений, так как детерминант матрицы равен 0");
             }
+
+            Console.ReadLine();
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Management.Instrumentation;
 using NUnit.Framework;
 
 namespace Lab4
 {
-     [TestFixture]
+    [TestFixture]
     public class MatrixTest
     {
         [Test]
@@ -75,26 +76,6 @@ namespace Lab4
         }
 
         [Test]
-        public void TestCreateRedhefferMatrix()
-        {
-            var m = Matrix.RedhefferMatrix(5);
-            var data = new double[,]
-                {{1, 1, 1, 1, 1}, {1, 1, 0, 1, 0}, {1, 0, 1, 0, 0}, {1, 0, 0, 1, 0}, {1, 0, 0, 0, 1}};
-            Assert.AreEqual(data, m.Data);
-        }
-
-        [Test]
-        public void TestDeterminantOnRedhefferMatrix()
-        {
-            var m1 = Matrix.RedhefferMatrix(5);
-            Assert.AreEqual(-2, m1.GetDeterminant());
-            var m2 = Matrix.RedhefferMatrix(8);
-            Assert.AreEqual(-2, m2.GetDeterminant());
-            var m3 = Matrix.RedhefferMatrix(10);
-            Assert.AreEqual(-1, m3.GetDeterminant());
-        }
-
-        [Test]
         public void TestCopy()
         {
             var data = new double[,] {{1, -2, 3}, {4, 0, 6}, {-7, 8, 9}};
@@ -105,8 +86,33 @@ namespace Lab4
             Assert.AreNotEqual(m.Data, copy.Data);
         }
 
+        [Test]
+        public void TestInevertible()
+        {
+            var data = new double[,] {{1, 2}, {3, 4}};
+            var m = new Matrix(data);
+            var inv = m.GetInvertibleMatrix().GetInvertibleMatrix();
+            Assert.AreEqual(m.Data, inv.Data);
+        }
 
-        
-        
+        [Test]
+        public void TestTranspose()
+        {
+            var data = new double[,] {{1, 2}, {3, 4}};
+            var m = new Matrix(data);
+            var tr = new double[,] {{1, 3}, {2, 4}};
+            var transpose = new Matrix(tr);
+            Assert.AreEqual(transpose.Data, m.GetTransposeMatrix().Data);
+        }
+
+        [Test]
+        public void TestMultMatrixOnVector()
+        {
+            var data = new double[,] {{1, 2}, {3, 4}};
+            var m = new Matrix(data);
+            var b = new double[] {5, 6};
+            var x = new double[] {17, 39};
+            Assert.AreEqual(x, m.MultOnVector(b));
+        }
     }
 }

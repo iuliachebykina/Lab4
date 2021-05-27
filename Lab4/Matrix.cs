@@ -45,8 +45,7 @@ namespace Lab4
                 }
             }
         }
-
-
+        
         public double this[int x, int y]
         {
             get => Data[x, y];
@@ -54,55 +53,7 @@ namespace Lab4
         }
 
         public bool IsSquare => M == N;
-
-        public static Matrix RedhefferMatrix(int n)
-        {
-            var m = new Matrix(n);
-            m.ProcessFunctionOverData((i, j) =>
-            {
-                if ((j + 1) % (i + 1) == 0 || j == 0)
-                {
-                    m[i, j] = 1;
-                }
-            });
-            return m;
-        }
-
-        public static double[] CramersRule(Matrix a, double[] b)
-        {
-            var x = new double[a.N];
-            if (!a.IsSquare)
-            {
-                throw new ArgumentException("Matrix A must be squared");
-            }
-
-            if (b.Length != a.N)
-            {
-                throw new ArgumentException("B's size must be matrix's size");
-            }
-
-            var det = a.GetDeterminant();
-            if (det == 0)
-            {
-                return null;
-            }
-
-
-            var temp = a.Copy();
-            for (var j = 0; j < a.N; j++)
-            {
-                for (var i = 0; i < a.N; i++)
-                    temp[i, j] = b[i];
-                x[j] = temp.GetDeterminant() / det;
-
-                for (var i = 0; i < a.N; i++)
-                    temp[i, j] = a[i, j];
-            }
-
-
-            return x;
-        }
-
+        
         public override string ToString()
         {
             var str = "";
@@ -214,11 +165,11 @@ namespace Lab4
                 result[i, j] = ((i + j) % 2 == 1 ? -1 : 1) * 
                     CreateMatrixWithoutColumnAndRow(matrix, i, j).GetDeterminant()/ determinant;
             });
-            result = result.CreateTransposeMatrix();
+            result = result.GetTransposeMatrix();
             return result;
         }
 
-        public Matrix CreateTransposeMatrix()
+        public Matrix GetTransposeMatrix()
         {
             var result = new Matrix(N, M);
             result.ProcessFunctionOverData((i, j) =>
