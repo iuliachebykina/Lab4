@@ -85,18 +85,9 @@ namespace Lab4
             m[2, 2] = 123456789;
             Assert.AreNotEqual(m.Data, copy.Data);
         }
-
+        
         [Test]
-        public void TestInevertible()
-        {
-            var data = new double[,] {{1, 2}, {3, 4}};
-            var m = new Matrix(data);
-            var inv = m.GetInvertibleMatrix().GetInvertibleMatrix();
-            Assert.AreEqual(m.Data, inv.Data);
-        }
-
-        [Test]
-        public void TestTranspose()
+        public void TestTransposeMatrix()
         {
             var data = new double[,] {{1, 2}, {3, 4}};
             var m = new Matrix(data);
@@ -106,13 +97,45 @@ namespace Lab4
         }
 
         [Test]
-        public void TestMultMatrixOnVector()
+        public void TestInvertibleMatrix()
         {
             var data = new double[,] {{1, 2}, {3, 4}};
             var m = new Matrix(data);
-            var b = new double[] {5, 6};
-            var x = new double[] {17, 39};
-            Assert.AreEqual(x, m.MultOnVector(b));
+            var inv = m.GetInvertibleMatrix().GetInvertibleMatrix();
+            Assert.AreEqual(m.Data, inv.Data);
+        }
+
+        [Test]
+        public void TestInvertibleOnNonSquareMatrix()
+        {
+            var data = new double[,] {{1, 2}, {3, 4}, {4, 6}};
+            var m = new Matrix(data);
+            var exception = Assert.Throws<ArgumentException>(() => { m.GetInvertibleMatrix(); });
+            if (exception != null)
+                Assert.AreEqual("Matrix must be square", exception.Message);
+        }
+
+        [Test]
+        public void TestInvertibleOnMatrixWithZeroDet()
+        {
+            var data = new double[,] {{1, 1}, {1, 1}};
+            var m = new Matrix(data);
+            var exception = Assert.Throws<ArgumentException>(() => { m.GetInvertibleMatrix(); });
+            if (exception != null)
+                Assert.AreEqual("The determinant is zero. Cannot find inverse matrix", exception.Message);
+        }
+
+        
+
+        [Test]
+        public void TestMultMatrixOnVectorWithWrongBSize()
+        {
+            var data = new double[,] {{1, 2}, {3, 4}};
+            var m = new Matrix(data);
+            var b = new double[] {5, 6, 43};
+            var exception = Assert.Throws<ArgumentException>(() => { m.MultOnVector(b); });
+            if (exception != null)
+                Assert.AreEqual("Wrong b's size", exception.Message);
         }
     }
 }
