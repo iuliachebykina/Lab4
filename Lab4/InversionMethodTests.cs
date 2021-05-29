@@ -13,7 +13,7 @@ namespace Lab4
             var answer = new[] {2315.1, 392.3};
             var m = new Matrix(data);
             var inversionMethod = new InversionMethod();
-            inversionMethod.MethodOfMatrixInversion(m, answer);
+            inversionMethod.FindSolution(m, answer);
             Assert.True(inversionMethod.IsSolution);
             var x = inversionMethod.Solution;
             for (var i = 0; i < m.N; i++)
@@ -35,7 +35,7 @@ namespace Lab4
             var answer = new[] {2315.1, 392.3};
             var m = new Matrix(data);
             var inversion = new InversionMethod();
-            inversion.MethodOfMatrixInversion(m, answer);
+            inversion.FindSolution(m, answer);
             Assert.False(inversion.IsSolution);
         }
         
@@ -45,9 +45,9 @@ namespace Lab4
             var data = new double[,] {{506, 66}, {66, 11}, {23, 432}};
             var answer = new[] {2315.1, 392.3};
             var m = new Matrix(data);
-            var exception = Assert.Throws<ArgumentException>(() => {new InversionMethod().MethodOfMatrixInversion(m, answer); });
+            var exception = Assert.Throws<ArgumentException>(() => {new InversionMethod().FindSolution(m, answer); });
             if (exception != null)
-                Assert.AreEqual("Matrix must be square", exception.Message);
+                Assert.AreEqual("Matrix A must be square", exception.Message);
         }
         
         [Test]
@@ -56,9 +56,9 @@ namespace Lab4
             var data = new double[,] {{506, 66}, {66, 11}};
             var answer = new[] {2315.1, 392.3, 3432};
             var m = new Matrix(data);
-            var exception = Assert.Throws<ArgumentException>(() => {new InversionMethod().MethodOfMatrixInversion(m, answer); });
+            var exception = Assert.Throws<ArgumentException>(() => {new InversionMethod().FindSolution(m, answer); });
             if (exception != null)
-                Assert.AreEqual("Wrong b's size", exception.Message);
+                Assert.AreEqual("B's size must be matrix's size", exception.Message);
         }
     }
 }

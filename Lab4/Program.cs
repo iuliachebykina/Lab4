@@ -81,7 +81,7 @@ namespace Lab4
 
             var m = new Matrix(data);
 
-            Console.WriteLine("Введите через пробел элементы вектора B");
+            Console.WriteLine("Введите через пробел элементы вектора B:");
             double[] b;
             try
             {
@@ -95,7 +95,7 @@ namespace Lab4
             }
 
             var inversionMethod = new InversionMethod();
-            inversionMethod.MethodOfMatrixInversion(m, b);
+            inversionMethod.FindSolution(m, b);
             if (inversionMethod.IsSolution)
             {
                 Console.WriteLine("Решение СЛУ:");
@@ -114,7 +114,7 @@ namespace Lab4
             }
             else
             {
-                Console.WriteLine("СЛУ не имеет решений, так как детерминант матрицы равен 0");
+                Console.WriteLine("СЛУ не имеет решений, так как определитель матрицы равен 0");
             }
 
             Console.ReadLine();

@@ -6,15 +6,15 @@ namespace Lab4
     {
         public bool IsSolution { get; private set; }
         public double[] Solution { get; private set; }
-        public void MethodOfMatrixInversion(Matrix a, double[] b)
+        public void FindSolution(Matrix a, double[] b)
         {
             if (!a.IsSquare)
             {
-                throw new ArgumentException("Matrix must be square");
+                throw new ArgumentException("Matrix A must be square");
             }
             if (b.Length != a.N)
             {
-                throw new ArgumentException("Wrong b's size");
+                throw new ArgumentException("B's size must be matrix's size");
             }
             IsSolution = true;
             var determinant = a.GetDeterminant();

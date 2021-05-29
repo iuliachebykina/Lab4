@@ -11,19 +11,32 @@ namespace Lab4
 
         public int N { get; }
 
-        public static double Count { get; set; }
+        public static long Count;
+
 
         public Matrix(int m, int n)
         {
+            if (m <= 0 || n <= 0)
+            {
+                throw new ArgumentException("N and M must be positive integers");
+            }
+
             M = m;
             N = n;
+
             Data = new double[m, n];
         }
 
         public Matrix(int n)
         {
+            if (n <= 0)
+            {
+                throw new ArgumentException("N must be positive integer");
+            }
+
             M = n;
             N = n;
+
             Data = new double[n, n];
         }
 
@@ -45,7 +58,8 @@ namespace Lab4
                 }
             }
         }
-        
+
+
         public double this[int x, int y]
         {
             get => Data[x, y];
@@ -82,7 +96,7 @@ namespace Lab4
             ProcessFunctionOverData((i, j) => newM[i, j] = Data[i, j]);
             return newM;
         }
-
+        
         public double GetDeterminant()
         {
             if (!IsSquare)
@@ -96,17 +110,19 @@ namespace Lab4
 
         private static double DetRec(Matrix matrix)
         {
-            if (matrix.N==1)
+            if (matrix.N == 1)
             {
                 return matrix[0, 0];
             }
+
             if (matrix.N == 2)
             {
                 Count += 2;
                 return matrix[0, 0] * matrix[1, 1] - matrix[0, 1] * matrix[1, 0];
             }
 
-            double sign = 1, result = 0;
+            var sign = 1;
+            var result = 0.0;
             for (var i = 0; i < matrix.N; i++)
             {
                 var newM = CreateMatrixWithoutColumnAndRow(matrix, 0, i);
