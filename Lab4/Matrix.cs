@@ -137,7 +137,7 @@ namespace Lab4
 
         private static Matrix CreateMatrixWithoutColumnAndRow(Matrix matrix, int p, int k)
         {
-            if (matrix.N == 1 || matrix.M == 1)
+            if (matrix.N == 1)
             {
                 return matrix;
             }
