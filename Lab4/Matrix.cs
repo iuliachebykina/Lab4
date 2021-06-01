@@ -67,7 +67,7 @@ namespace Lab4
         }
 
         public bool IsSquare => M == N;
-        
+
         public override string ToString()
         {
             var str = "";
@@ -96,7 +96,7 @@ namespace Lab4
             ProcessFunctionOverData((i, j) => newM[i, j] = Data[i, j]);
             return newM;
         }
-        
+
         public double GetDeterminant()
         {
             if (!IsSquare)
@@ -137,6 +137,11 @@ namespace Lab4
 
         private static Matrix CreateMatrixWithoutColumnAndRow(Matrix matrix, int p, int k)
         {
+            if (matrix.N == 1 || matrix.M == 1)
+            {
+                return matrix;
+            }
+
             var result = new Matrix(matrix.N - 1, matrix.N - 1);
             var row = 0;
             for (var i = 0; i < matrix.N; i++)
@@ -167,19 +172,18 @@ namespace Lab4
 
         private static Matrix GetInvMatrix(Matrix matrix)
         {
-            
             var determinant = matrix.GetDeterminant();
             if (determinant == 0.0)
             {
                 throw new ArgumentException("The determinant is zero. Cannot find inverse matrix");
-
             }
+
             var result = new Matrix(matrix.M);
             result.ProcessFunctionOverData((i, j) =>
             {
                 Count += 2;
-                result[i, j] = ((i + j) % 2 == 1 ? -1 : 1) * 
-                    CreateMatrixWithoutColumnAndRow(matrix, i, j).GetDeterminant()/ determinant;
+                result[i, j] = ((i + j) % 2 == 1 ? -1 : 1) *
+                    CreateMatrixWithoutColumnAndRow(matrix, i, j).GetDeterminant() / determinant;
             });
             result = result.GetTransposeMatrix();
             return result;
@@ -188,10 +192,7 @@ namespace Lab4
         public Matrix GetTransposeMatrix()
         {
             var result = new Matrix(N, M);
-            result.ProcessFunctionOverData((i, j) =>
-            {
-                result[i, j] = this[j, i];
-            });
+            result.ProcessFunctionOverData((i, j) => { result[i, j] = this[j, i]; });
             return result;
         }
 
@@ -201,13 +202,10 @@ namespace Lab4
             {
                 throw new ArgumentException("Wrong b's size");
             }
+
             var result = new double[M];
-            ProcessFunctionOverData((i, j) =>
-            {
-                result[i] += this[i, j] * vector[j];
-            });
+            ProcessFunctionOverData((i, j) => { result[i] += this[i, j] * vector[j]; });
             return result;
         }
-        
     }
 }

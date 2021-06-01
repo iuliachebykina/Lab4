@@ -30,12 +30,15 @@ namespace Lab4
                     }
                     catch
                     {
-                        var x = random.Next() % (i - 1);
-                        var y = random.Next() % (i - 1);
+                        var x = random.Next() % i;
+                        var y = random.Next() % i;
+                        
                         m[x, y] += 1;
                         Matrix.Count = 0;
                     }
                 }
+
+                Console.WriteLine(i + " - " + Matrix.Count);
                 streamWriter.WriteLine(i + " - " + Matrix.Count);
             }
             Console.WriteLine("Эксперимент завершен");

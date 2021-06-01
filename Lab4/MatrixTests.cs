@@ -26,7 +26,7 @@ namespace Lab4
             Assert.AreEqual(10, m.N);
             Assert.AreEqual(10, m.M);
         }
-        
+
         [Test]
         public void TestMatrixDataConstructor()
         {
@@ -36,7 +36,6 @@ namespace Lab4
             Assert.AreEqual(data.GetLength(0), m.M);
             Assert.AreEqual(data.GetLength(1), m.N);
         }
-
 
 
         [Test]
@@ -63,7 +62,7 @@ namespace Lab4
                 Assert.AreEqual("N and M must be positive integers", exception3.Message);
         }
 
-        
+
         [Test]
         public void TestIndex()
         {
@@ -113,7 +112,7 @@ namespace Lab4
             if (exception != null)
                 Assert.AreEqual("Determinant can be calculated only for square matrix", exception.Message);
         }
-        
+
         [Test]
         public void TestTransposeMatrix()
         {
