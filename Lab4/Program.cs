@@ -18,7 +18,6 @@ namespace Lab4
             for (var i = 1; i <= 10; i++)
             {
                 var m = new Matrix(i);
-                Matrix.Count = 0;
                 var random = new Random();
                 var flag = true;
                 while (flag)
@@ -32,14 +31,13 @@ namespace Lab4
                     {
                         var x = random.Next() % i;
                         var y = random.Next() % i;
-                        
                         m[x, y] += 1;
-                        Matrix.Count = 0;
+                        m.Count = 0;
                     }
                 }
 
-                Console.WriteLine(i + " - " + Matrix.Count);
-                streamWriter.WriteLine(i + " - " + Matrix.Count);
+                Console.WriteLine(i + " - " + m.Count);
+                streamWriter.WriteLine(i + " - " + m.Count);
             }
             Console.WriteLine("Эксперимент завершен");
         }

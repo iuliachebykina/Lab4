@@ -11,7 +11,7 @@ namespace Lab4
 
         public int N { get; }
 
-        public static long Count;
+        public long Count;
 
 
         public Matrix(int m, int n)
@@ -108,7 +108,7 @@ namespace Lab4
             return DetRec(this);
         }
 
-        private static double DetRec(Matrix matrix)
+        private double DetRec(Matrix matrix)
         {
             if (matrix.N == 1)
             {
@@ -125,35 +125,36 @@ namespace Lab4
             var result = 0.0;
             for (var i = 0; i < matrix.N; i++)
             {
-                var newM = CreateMatrixWithoutColumnAndRow(matrix, 0, i);
                 Count += 2;
+                var newM = matrix.CreateMatrixWithoutColumnAndRow(0, i);
                 result += sign * matrix[0, i] * DetRec(newM);
                 sign = -sign;
+                
             }
 
             return result;
         }
 
 
-        private static Matrix CreateMatrixWithoutColumnAndRow(Matrix matrix, int p, int k)
+        private Matrix CreateMatrixWithoutColumnAndRow(int p, int k)
         {
-            if (matrix.N == 1)
+            if (N == 1)
             {
-                return matrix;
+                return this;
             }
 
-            var result = new Matrix(matrix.N - 1, matrix.N - 1);
+            var result = new Matrix(N - 1, N - 1);
             var row = 0;
-            for (var i = 0; i < matrix.N; i++)
+            for (var i = 0; i < N; i++)
             {
                 if (i == p)
                     continue;
                 var col = 0;
-                for (var j = 0; j < matrix.N; j++)
+                for (var j = 0; j < N; j++)
                 {
                     if (j == k)
                         continue;
-                    result[row, col] = matrix[i, j];
+                    result[row, col] = this[i, j];
                     col++;
                 }
 
@@ -165,25 +166,21 @@ namespace Lab4
 
         public Matrix GetInvertibleMatrix()
         {
-            if (M != N)
-                throw new ArgumentException("Matrix must be square");
-            return GetInvMatrix(this);
-        }
-
-        private static Matrix GetInvMatrix(Matrix matrix)
-        {
-            var determinant = matrix.GetDeterminant();
+            if (!IsSquare)
+                throw new InvalidOperationException("Inverse matrix can be find only for square matrix");
+            var determinant = GetDeterminant();
             if (determinant == 0.0)
             {
-                throw new ArgumentException("The determinant is zero. Cannot find inverse matrix");
+                throw new InvalidOperationException("The determinant is zero. Cannot find inverse matrix");
             }
 
-            var result = new Matrix(matrix.M);
+            var result = new Matrix(M);
             result.ProcessFunctionOverData((i, j) =>
             {
-                Count += 2;
+                var m = CreateMatrixWithoutColumnAndRow(i, j);
                 result[i, j] = ((i + j) % 2 == 1 ? -1 : 1) *
-                    CreateMatrixWithoutColumnAndRow(matrix, i, j).GetDeterminant() / determinant;
+                   DetRec(m)/ determinant;
+                Count += 2;
             });
             result = result.GetTransposeMatrix();
             return result;

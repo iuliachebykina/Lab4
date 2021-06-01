@@ -137,9 +137,9 @@ namespace Lab4
         {
             var data = new double[,] {{1, 2}, {3, 4}, {4, 6}};
             var m = new Matrix(data);
-            var exception = Assert.Throws<ArgumentException>(() => { m.GetInvertibleMatrix(); });
+            var exception = Assert.Throws<InvalidOperationException>(() => { m.GetInvertibleMatrix(); });
             if (exception != null)
-                Assert.AreEqual("Matrix must be square", exception.Message);
+                Assert.AreEqual("Inverse matrix can be find only for square matrix", exception.Message);
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace Lab4
         {
             var data = new double[,] {{1, 1}, {1, 1}};
             var m = new Matrix(data);
-            var exception = Assert.Throws<ArgumentException>(() => { m.GetInvertibleMatrix(); });
+            var exception = Assert.Throws<InvalidOperationException>(() => { m.GetInvertibleMatrix(); });
             if (exception != null)
                 Assert.AreEqual("The determinant is zero. Cannot find inverse matrix", exception.Message);
         }
